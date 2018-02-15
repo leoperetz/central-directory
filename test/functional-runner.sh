@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 docker-compose-file docker-functional-compose-file env-file"
+    exit 1
+fi
+
 POSTGRES_USER=${POSTGRES_USER:-postgres}
 POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
 DIRECTORY_HOST=${HOST_IP:-localhost}
@@ -6,11 +12,6 @@ FUNC_TEST_CMD=${FUNC_TEST_CMD:-tape \'test/functional/**/*.test.js\' | faucet}
 docker_compose_file=$1
 docker_functional_compose_file=$2
 env_file=$3
-
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 docker-compose-file docker-functional-compose-file env-file"
-    exit 1
-fi
 
 psql() {
 	docker run --rm -i \

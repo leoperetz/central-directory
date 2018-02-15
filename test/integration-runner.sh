@@ -1,14 +1,15 @@
 #!/bin/bash
-POSTGRES_USER=${POSTGRES_USER:-postgres}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-POSTGRES_HOST=${HOST_IP:-localhost}
-INTG_TEST_CMD=${INTG_TEST_CMD:-tape \'test/integration/**/*.test.js\' | faucet}
-env_file=$1
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 env-file"
     exit 1
 fi
+
+POSTGRES_USER=${POSTGRES_USER:-postgres}
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+POSTGRES_HOST=${HOST_IP:-localhost}
+INTG_TEST_CMD=${INTG_TEST_CMD:-tape \'test/integration/**/*.test.js\' | faucet}
+env_file=$1
 
 psql() {
 	docker run --rm -i \
