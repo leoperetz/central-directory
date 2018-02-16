@@ -1,4 +1,4 @@
-FROM dwolla/alpine-node-make
+FROM mhart/alpine-node:8.9.4
 
 WORKDIR /opt/central-directory
 COPY . /opt/central-directory
