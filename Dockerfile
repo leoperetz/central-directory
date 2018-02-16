@@ -1,6 +1,6 @@
 FROM mhart/alpine-node:8.9.4
 
-RUN apk add --no-cache -t build-dependencies make gcc g++ python libtool autoconf automake \
+RUN apk add --no-cache -t build-dependencies make gcc g++ libtool autoconf automake \
   && cd $(npm root -g)/npm \
   && npm install -g node-gyp \
   && npm install -g sodium@2.0.3 --unsafe-perm \
