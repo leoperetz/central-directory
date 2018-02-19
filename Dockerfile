@@ -4,7 +4,7 @@ RUN apk add --no-cache -t build-dependencies make gcc g++ python libtool autocon
   && cd $(npm root -g)/npm \
   && npm install -g node-gyp \
   && npm install -g sodium@2.0.3 --unsafe-perm \
-  && npm install -g argon2@0.17.1 --unsafe-perm \
+  && npm install -g argon2@0.16.2 --unsafe-perm \
   && apk del build-dependencies
 
 WORKDIR /opt/central-directory
