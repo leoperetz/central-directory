@@ -42,3 +42,9 @@ Dockerfile.old
 .vs_code
 .history
 package-lock.json
+
+# --------------- #
+# IntelliJ #
+# --------------- #
+.idea/
+**/*.iml
