@@ -1,6 +1,6 @@
 # Onboarding
 ***
-### Introduction 
+### Introduction
 In this document we'll walk through the setup for the Central Directory. It consists of three sections:
 
 * [Software List](#software-list)
@@ -70,7 +70,7 @@ export CDIR_DATABASE_URI=postgres://central_directory:cVq8iFqaLuHy8jjKuA@localho
 ```
 
 * cd into the central_directory project
-* run `nvm install 6.5.0`
+* run `nvm install 8.9.4`
 * run `nvm use`
 * run `npm install -g node-gyp`
 * run `brew install libtool autoconf automake`
@@ -80,5 +80,5 @@ export CDIR_DATABASE_URI=postgres://central_directory:cVq8iFqaLuHy8jjKuA@localho
 * run `npm start` *(to run it locally)* or `npm run dev` *(to run it on your Docker host)*
 
 ### Errors On Setup
-* `./src/argon2_node.cpp:6:10: fatal error: 'tuple' file not found` 
+* `./src/argon2_node.cpp:6:10: fatal error: 'tuple' file not found`
   - resolved by running `CXX='clang++ -std=c++11 -stdlib=libc++' npm install argon2`

@@ -32,8 +32,8 @@ Test('metadata handler', (handlerTest) => {
   })
 
   handlerTest.test('health should', (healthTest) => {
-    healthTest.test('return status ok', (assert) => {
-      let reply = function (response) {
+    healthTest.test('return status ok', async function (assert) {
+      let h = function (response) {
         assert.equal(response.status, 'OK')
         return {
           code: (statusCode) => {
@@ -43,7 +43,7 @@ Test('metadata handler', (handlerTest) => {
         }
       }
 
-      Handler.health(createRequest(), reply)
+      await Handler.health(createRequest(), h)
     })
     healthTest.end()
   })

@@ -53,18 +53,18 @@ Test('server test', serverTest => {
       Migrator.migrate.returns(P.resolve({}))
 
       require('../../src/server')
-      .then(() => {
-        test.ok(Migrator.migrate.calledOnce)
-        test.ok(Migrator.migrate.calledBefore(Db.connect))
-        test.ok(Db.connect.calledOnce)
-        test.ok(Db.connect.calledWith(databaseUri))
-        test.ok(Db.connect.calledBefore(Glue.compose))
-        test.ok(Glue.compose.calledWith(Manifest))
-        test.ok(Glue.compose.calledBefore(serverStub))
-        test.ok(serverStub.calledOnce)
-        test.ok(Logger.info.calledWith(`Server running at: ${serverUri}`))
-        test.end()
-      })
+        .then(() => {
+          test.ok(Migrator.migrate.calledOnce)
+          test.ok(Migrator.migrate.calledBefore(Db.connect))
+          test.ok(Db.connect.calledOnce)
+          test.ok(Db.connect.calledWith(databaseUri))
+          test.ok(Db.connect.calledBefore(Glue.compose))
+          test.ok(Glue.compose.calledWith(Manifest))
+          test.ok(Glue.compose.calledBefore(serverStub))
+          test.ok(serverStub.calledOnce)
+          test.ok(Logger.info.calledWith(`Server running at: ${serverUri}`))
+          test.end()
+        })
     })
 
     setupTest.test('Log error on start', test => {
@@ -72,15 +72,15 @@ Test('server test', serverTest => {
       Migrator.migrate.returns(P.reject(error))
 
       require('../../src/server')
-      .then(() => {
-        test.fail('Expected exception to be thrown')
-        test.end()
-      })
-      .catch(e => {
-        test.equal(e, error)
-        test.ok(Logger.error.calledWith(e))
-        test.end()
-      })
+        .then(() => {
+          test.fail('Expected exception to be thrown')
+          test.end()
+        })
+        .catch(e => {
+          test.equal(e, error)
+          test.ok(Logger.error.calledWith(e))
+          test.end()
+        })
     })
     setupTest.end()
   })

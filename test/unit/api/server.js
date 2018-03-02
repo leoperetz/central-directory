@@ -18,8 +18,7 @@ function setup () {
     }
   }
 
-  const server = new Hapi.Server()
-  server.connection({
+  const server = new Hapi.Server({
     port: 8000,
     routes: {
       validate: ErrorHandling.validateRoutes()

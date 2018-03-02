@@ -40,3 +40,5 @@ Dockerfile.old
 .node_repl_history
 
 .vs_code
+.history
+package-lock.json

@@ -12,8 +12,8 @@ const buildResponse = (dfsp) => {
   }
 }
 
-exports.create = (request, reply) => {
+exports.create = (request, h) => {
   DfspService.create(request.payload.name, request.payload.shortName, request.payload.providerUrl)
-    .then(dfsp => reply(buildResponse(dfsp)).code(201))
-    .catch(e => reply(e))
+    .then(dfsp => { return h.response(buildResponse(dfsp)).code(201) })
+    .catch(e => { return e })
 }

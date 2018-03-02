@@ -52,4 +52,3 @@ Test('/resources', resourcesTest => {
   })
   resourcesTest.end()
 })
-

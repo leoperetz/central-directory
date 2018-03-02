@@ -54,13 +54,13 @@ exports.get = (request, reply) => {
             return P.all(result.map(r => DfspService.getByDfspSchemeIdentifier(r.dfspSchemeIdentifier)
               .then(dfsp => {
                 return { dfsp, primary: r.primary }
-              }
-            )))
-            .then(dfsps => {
-              // Get rid of any DFSPs that can't be found but have a matching SCHEME_ID. This could be due to deleted records. or by sharing test data.
-              let filteredDfsps = dfsps.filter(d => d.dfsp !== null)
-              resolve(filteredDfsps.map(d => dfspResponse(d)))
-            })
+              })
+            ))
+              .then(dfsps => {
+                // Get rid of any DFSPs that can't be found but have a matching SCHEME_ID. This could be due to deleted records. or by sharing test data.
+                let filteredDfsps = dfsps.filter(d => d.dfsp !== null)
+                resolve(filteredDfsps.map(d => dfspResponse(d)))
+              })
           }
         })
       })

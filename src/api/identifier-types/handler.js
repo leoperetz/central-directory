@@ -2,12 +2,12 @@
 
 const Registry = require('../../domain/directory/registry')
 
-exports.identifierTypes = (request, reply) => {
+exports.identifierTypes = (request, h) => {
   Registry.identifierTypes()
     .then(result => result.map(t => ({
       identifierType: t.identifierType,
       description: t.description
     })))
-    .then(result => reply(result))
-    .catch(e => reply(e))
+    .then(result => { return result })
+    .catch(e => { return e })
 }

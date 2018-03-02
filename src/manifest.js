@@ -2,69 +2,76 @@
 
 const Config = require('./lib/config')
 const Pack = require('../package')
+const ErrorHandling = require('@mojaloop/central-services-error-handling')
+const Boom = require('boom')
 
 module.exports = {
-  connections: [
+  server: [
     {
       port: Config.PORT,
       routes: {
-        validate: require('@mojaloop/central-services-error-handling').validateRoutes()
+        validate: {
+          options: ErrorHandling.validateRoutes(),
+          failAction: async function (request, h, err) {
+            throw Boom.boomify(err)
+          }
+        }
       }
     }
   ],
-  registrations: [
-    { plugin: 'inert' },
-    { plugin: 'vision' },
-    {
-      plugin: {
-        register: 'hapi-swagger',
+  register: {
+    pligins: [
+      { plugin: 'inert' },
+      { plugin: 'vision' },
+      { plugin: '@mojaloop/central-services-error-handling' },
+      { plugin: '@mojaloop/central-services-auth' },
+      {
+        plugin: 'hapi-swagger',
         options: {
           info: {
             'title': 'Central Directory API Documentation',
             'version': Pack.version
           }
         }
-      }
-    },
-    { plugin: 'blipp' },
-    { plugin: '@mojaloop/central-services-error-handling' },
-    { plugin: '@mojaloop/central-services-auth' },
-    { plugin: './api/auth' },
-    { plugin: './api' },
-    { plugin: './domain/directory' },
-    {
-      plugin: {
-        register: 'good',
-        options: {
-          ops: {
-            interval: 1000
-          },
-          reporters: {
-            console: [
-              {
-                module: 'good-squeeze',
-                name: 'Squeeze',
-                args: [
-                  {
-                    response: '*',
-                    log: '*',
-                    error: '*'
-                  }
-                ]
-              },
-              {
-                module: 'good-console',
-                args: [
-                  {
-                    format: 'YYYY-MM-DD HH:mm:ss.SSS'
-                  }
-                ]
-              },
-              'stdout'
-            ]
+      },
+      { plugin: 'blipp' },
+      { plugin: './api/auth' },
+      { plugin: './api' },
+      { plugin: './domain/directory' },
+      {
+        plugin: {
+          register: 'good',
+          options: {
+            ops: {
+              interval: 1000
+            },
+            reporters: {
+              console: [
+                {
+                  module: 'good-squeeze',
+                  name: 'Squeeze',
+                  args: [
+                    {
+                      response: '*',
+                      log: '*',
+                      error: '*'
+                    }
+                  ]
+                },
+                {
+                  module: 'good-console',
+                  args: [
+                    {
+                      format: 'YYYY-MM-DD HH:mm:ss.SSS'
+                    }
+                  ]
+                },
+                'stdout'
+              ]
+            }
           }
         }
       }
-    }
-  ]
+    ]
+  }
 }

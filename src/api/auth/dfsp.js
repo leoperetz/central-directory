@@ -19,7 +19,7 @@ const validate = (request, name, password, cb) => {
 
   DfspService.getByName(name)
     .then(dfsp => verifyHash(dfsp, password)
-        .then(verified => cb(null, verified, dfsp))
+      .then(verified => cb(null, verified, dfsp))
     )
 }
 
