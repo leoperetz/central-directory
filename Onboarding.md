@@ -73,7 +73,8 @@ export CDIR_DATABASE_URI=postgres://central_directory:cVq8iFqaLuHy8jjKuA@localho
 * run `nvm install 8.9.4`
 * run `nvm use`
 * run `npm install -g node-gyp`
-* run `brew install libtool autoconf automake`
+* run (Mac) `brew install libtool autoconf automake`
+(Linux Ubuntu) `sudo apt-get install libtool autotools-dev autoconf`
 * run `npm install`
 * run `source ~/.bash_profile`
 * run `npm rebuild`
