@@ -6,21 +6,19 @@ const ErrorHandling = require('@mojaloop/central-services-error-handling')
 const Boom = require('boom')
 
 module.exports = {
-  server: [
-    {
-      port: Config.PORT,
-      routes: {
-        validate: {
-          options: ErrorHandling.validateRoutes(),
-          failAction: async function (request, h, err) {
-            throw Boom.boomify(err)
-          }
+  server: {
+    port: Config.PORT,
+    routes: {
+      validate: {
+        options: ErrorHandling.validateRoutes(),
+        failAction: async function (request, h, err) {
+          throw Boom.boomify(err)
         }
       }
     }
-  ],
+  },
   register: {
-    pligins: [
+    plugins: [
       { plugin: 'inert' },
       { plugin: 'vision' },
       { plugin: '@mojaloop/central-services-error-handling' },
@@ -39,36 +37,34 @@ module.exports = {
       { plugin: './api' },
       { plugin: './domain/directory' },
       {
-        plugin: {
-          register: 'good',
-          options: {
-            ops: {
-              interval: 1000
-            },
-            reporters: {
-              console: [
-                {
-                  module: 'good-squeeze',
-                  name: 'Squeeze',
-                  args: [
-                    {
-                      response: '*',
-                      log: '*',
-                      error: '*'
-                    }
-                  ]
-                },
-                {
-                  module: 'good-console',
-                  args: [
-                    {
-                      format: 'YYYY-MM-DD HH:mm:ss.SSS'
-                    }
-                  ]
-                },
-                'stdout'
-              ]
-            }
+        plugin: 'good',
+        options: {
+          ops: {
+            interval: 1000
+          },
+          reporters: {
+            console: [
+              {
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [
+                  {
+                    response: '*',
+                    log: '*',
+                    error: '*'
+                  }
+                ]
+              },
+              {
+                module: 'good-console',
+                args: [
+                  {
+                    format: 'YYYY-MM-DD HH:mm:ss.SSS'
+                  }
+                ]
+              },
+              'stdout'
+            ]
           }
         }
       }
