@@ -19,10 +19,10 @@ module.exports = {
   },
   register: {
     plugins: [
-      {plugin: 'inert'},
-      {plugin: 'vision'},
-      {plugin: '@mojaloop/central-services-error-handling'},
-      {plugin: '@mojaloop/central-services-auth'},
+      { plugin: 'inert' },
+      { plugin: 'vision' },
+      { plugin: '@mojaloop/central-services-error-handling' },
+      { plugin: '@mojaloop/central-services-auth' },
       {
         plugin: 'hapi-swagger',
         options: {
@@ -32,41 +32,39 @@ module.exports = {
           }
         }
       },
-      {plugin: 'blipp'},
-      {plugin: './api/auth'},
-      {plugin: './api'},
-      {plugin: './domain/directory'},
+      { plugin: 'blipp' },
+      { plugin: './api/auth' },
+      { plugin: './api' },
+      { plugin: './domain/directory' },
       {
-        plugin: {
-          register: 'good',
-          options: {
-            ops: {
-              interval: 1000
-            },
-            reporters: {
-              console: [
-                {
-                  module: 'good-squeeze',
-                  name: 'Squeeze',
-                  args: [
-                    {
-                      response: '*',
-                      log: '*',
-                      error: '*'
-                    }
-                  ]
-                },
-                {
-                  module: 'good-console',
-                  args: [
-                    {
-                      format: 'YYYY-MM-DD HH:mm:ss.SSS'
-                    }
-                  ]
-                },
-                'stdout'
-              ]
-            }
+        plugin: 'good',
+        options: {
+          ops: {
+            interval: 1000
+          },
+          reporters: {
+            console: [
+              {
+                module: 'good-squeeze',
+                name: 'Squeeze',
+                args: [
+                  {
+                    response: '*',
+                    log: '*',
+                    error: '*'
+                  }
+                ]
+              },
+              {
+                module: 'good-console',
+                args: [
+                  {
+                    format: 'YYYY-MM-DD HH:mm:ss.SSS'
+                  }
+                ]
+              },
+              'stdout'
+            ]
           }
         }
       }
