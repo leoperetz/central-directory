@@ -6,25 +6,23 @@ const ErrorHandling = require('@mojaloop/central-services-error-handling')
 const Boom = require('boom')
 
 module.exports = {
-  server: [
-    {
-      port: Config.PORT,
-      routes: {
-        validate: {
-          options: ErrorHandling.validateRoutes(),
-          failAction: async function (request, h, err) {
-            throw Boom.boomify(err)
-          }
+  server: {
+    port: Config.PORT,
+    routes: {
+      validate: {
+        options: ErrorHandling.validateRoutes(),
+        failAction: async function (request, h, err) {
+          throw Boom.boomify(err)
         }
       }
     }
-  ],
+  },
   register: {
-    pligins: [
-      { plugin: 'inert' },
-      { plugin: 'vision' },
-      { plugin: '@mojaloop/central-services-error-handling' },
-      { plugin: '@mojaloop/central-services-auth' },
+    plugins: [
+      {plugin: 'inert'},
+      {plugin: 'vision'},
+      {plugin: '@mojaloop/central-services-error-handling'},
+      {plugin: '@mojaloop/central-services-auth'},
       {
         plugin: 'hapi-swagger',
         options: {
@@ -34,10 +32,10 @@ module.exports = {
           }
         }
       },
-      { plugin: 'blipp' },
-      { plugin: './api/auth' },
-      { plugin: './api' },
-      { plugin: './domain/directory' },
+      {plugin: 'blipp'},
+      {plugin: './api/auth'},
+      {plugin: './api'},
+      {plugin: './domain/directory'},
       {
         plugin: {
           register: 'good',

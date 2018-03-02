@@ -7,6 +7,7 @@ const Auth = require('@mojaloop/central-services-auth')
 const DfspStrategy = require('../../../src/api/auth/dfsp')
 const TokenStrategy = require('../../../src/api/auth/token')
 const Encoding = require('@mojaloop/central-services-shared').Encoding
+const Boom = require('boom')
 
 let sandbox
 
@@ -21,7 +22,12 @@ function setup () {
   const server = new Hapi.Server({
     port: 8000,
     routes: {
-      validate: ErrorHandling.validateRoutes()
+      validate: {
+        options: ErrorHandling.validateRoutes(),
+        failAction: async function (request, h, err) {
+          throw Boom.boomify(err)
+        }
+      }
     }
   })
 

@@ -18,9 +18,9 @@ exports.health = (request, h) => {
   return h.response({ status: 'OK' }).code(200)
 }
 
-exports.metadata = (request, h) => {
-  return h.message({
+exports.metadata = async function (request, h) {
+  return h.response({
     directory: Config.HOSTNAME,
-    urls: extractUrls(request)
+    urls: await extractUrls(request)
   }).code(200)
 }
