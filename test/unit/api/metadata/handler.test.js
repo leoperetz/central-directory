@@ -45,7 +45,7 @@ Test('metadata handler', (handlerTest) => {
         }
       }
 
-      await Handler.health(createRequest(), h)
+      Handler.health(createRequest(), h)
     })
     healthTest.end()
   })

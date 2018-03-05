@@ -11,7 +11,7 @@ const checkValidDirectory = (file) => {
 }
 
 exports.plugin = {
-  register: async (server, options) => {
+  register: function (server, options) {
     let found = Glob.sync('**/*.js', { cwd: __dirname }).map(checkValidDirectory).filter(x => x !== undefined)
     Registry.register.apply(this, found)
   },

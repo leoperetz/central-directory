@@ -32,9 +32,9 @@ Test('Directories module', moduleTest => {
       }
 
       let Module = Proxyquire('../../../../src/domain/directory', stubs)
-      test.equal(Module.register.attributes.name, 'directory-registration')
+      test.equal(Module.plugin.name, 'directory-registration')
 
-      await Module.plugin.register({}, {})
+      Module.plugin.register({}, {})
       test.ok(Registry.register.apply.calledOnce)
       test.deepEqual(Registry.register.apply.firstCall.args[1], [file1Object, file2Object])
       test.end()

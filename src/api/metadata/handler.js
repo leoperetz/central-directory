@@ -14,13 +14,13 @@ const extractUrls = (request) => {
   return urls
 }
 
-exports.health = (request, h) => {
+exports.health = function (request, h) {
   return h.response({ status: 'OK' }).code(200)
 }
 
-exports.metadata = async function (request, h) {
+exports.metadata = function (request, h) {
   return h.response({
     directory: Config.HOSTNAME,
-    urls: await extractUrls(request)
+    urls: extractUrls(request)
   }).code(200)
 }

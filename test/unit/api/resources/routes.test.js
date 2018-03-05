@@ -21,31 +21,28 @@ Test('/resources', resourcesTest => {
   })
 
   resourcesTest.test('get should', getTest => {
-    getTest.test('return error if identifier missing', test => {
+    getTest.test('return error if identifier missing', async function (test) {
       let req = Server.request({ url: '/resources', headers: { 'Authorization': Server.basic('test', 'test') } })
 
-      fixtures.server.inject(req, res => {
-        Server.assertInvalidQueryParameterError(test, res, 'identifier is required')
-        test.end()
-      })
+      const res = await fixtures.server.inject(req)
+      Server.assertInvalidQueryParameterError(test, res, 'identifier is required')
+      test.end()
     })
 
-    getTest.test('return error if identifier missing', test => {
+    getTest.test('return error if identifier missing', async function (test) {
       let req = Server.request({ url: '/resources?', headers: { 'Authorization': Server.basic('test', 'test') } })
 
-      fixtures.server.inject(req, res => {
-        Server.assertInvalidQueryParameterError(test, res, 'identifier is required')
-        test.end()
-      })
+      const res = await fixtures.server.inject(req)
+      Server.assertInvalidQueryParameterError(test, res, 'identifier is required')
+      test.end()
     })
 
-    getTest.test('return error if identifierType is not registered', test => {
+    getTest.test('return error if identifierType is not registered', async function (test) {
       let req = Server.request({ url: '/resources?identifier=not:1', headers: { 'Authorization': Server.basic('test', 'test') } })
 
-      fixtures.server.inject(req, res => {
-        Server.assertInvalidQueryParameterError(test, res, 'identifier with value "not:1" fails to match the End User Registry number pattern', 'identifier with value "not:1" fails to match the E.164 telephone number pattern')
-        test.end()
-      })
+      const res = await fixtures.server.inject(req)
+      Server.assertInvalidQueryParameterError(test, res, 'identifier with value "not:1" fails to match the End User Registry number pattern', 'identifier with value "not:1" fails to match the E.164 telephone number pattern')
+      test.end()
     })
 
     getTest.end()
