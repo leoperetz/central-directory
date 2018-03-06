@@ -56,14 +56,12 @@ Test('token auth', tokenTest => {
     validateTest.test('be unauthorized if Directory-Api-Key header not set', async function (test) {
       const request = createRequest()
 
-      try {
-        await TokenAuth.validate(request, 'token', {})
-      } catch (err) {
+      await TokenAuth.validate(request, 'token', function (err) {
         test.ok(err)
         test.ok(err instanceof UnauthorizedError)
         test.equal(err.message, '"Directory-Api-Key" header is required')
         test.end()
-      }
+      })
     })
 
     validateTest.test('be unauthorized if Directory-Api-Key not found', async function (test) {
@@ -71,14 +69,11 @@ Test('token auth', tokenTest => {
       DfspService.getByName.withArgs(name).returns(P.resolve(null))
       const request = createRequest(name)
 
-      try {
-        await TokenAuth.validate(request, 'token', {})
-      } catch (err) {
-        test.ok(err)
+      await TokenAuth.validate(request, 'token', function (err) {
         test.ok(err instanceof UnauthorizedError)
         test.equal(err.message, '"Directory-Api-Key" header is not valid')
         test.end()
-      }
+      })
     })
 
     validateTest.test('be invalid if token not found by dfsp', async function (test) {
@@ -91,13 +86,11 @@ Test('token auth', tokenTest => {
 
       const request = createRequest(name)
 
-      try {
-        await TokenAuth.validate(request, 'token', {})
-      } catch (err) {
+      await TokenAuth.validate(request, 'token', function (err, isValid) {
         test.notOk(err)
-        test.equal(err.isValid, false)
+        test.equal(isValid, false)
         test.end()
-      }
+      })
     })
 
     validateTest.test('be invalid if no dfsp tokens can be verified', async function (test) {
@@ -119,14 +112,11 @@ Test('token auth', tokenTest => {
 
       const request = createRequest(name)
 
-      const reply = {
-        response: (response) => {
-          test.notOk(response.credentials)
-          test.equal(response.isValid, false)
-          test.end()
-        }
-      }
-      await TokenAuth.validate(request, token, reply)
+      await TokenAuth.validate(request, token, function (err, isValid) {
+        test.notOk(err)
+        test.equal(isValid, false)
+        test.end()
+      })
     })
 
     validateTest.test('pass with account if one token can be verified', async function (test) {
@@ -139,8 +129,7 @@ Test('token auth', tokenTest => {
 
       const tokens = [
         { token: 'bad-token1' },
-        { token: 'bad-token2' },
-        { token }
+        { token: 'bad-token2' }
       ]
 
       Crypto.verify.returns(P.resolve(false))
@@ -150,15 +139,12 @@ Test('token auth', tokenTest => {
 
       const request = createRequest(name)
 
-      const reply = {
-        response: (response) => {
-          test.notOk(response.credentials)
-          test.equal(response.credentials, dfsp)
-          test.equal(response.isValid, false)
-          test.end()
-        }
-      }
-      await TokenAuth.validate(request, token, reply)
+      await TokenAuth.validate(request, token, function (err, isValid, credentials) {
+        test.notOk(err)
+        test.equal(isValid, true)
+        test.equal(credentials, dfsp)
+        test.end()
+      })
     })
 
     validateTest.test('be invalid if a token has expired', async function (test) {
@@ -187,24 +173,12 @@ Test('token auth', tokenTest => {
 
       const request = createRequest(name)
 
-      const reply = {
-        response: (response) => {
-          test.notOk(response.credentials)
-          test.equal(response.credentials, dfsp)
-          test.equal(response.isValid, false)
-          test.end()
-        }
-      }
-      await TokenAuth.validate(request, token, reply)
-
-      const cb = (err, isValid, credentials) => {
+      await TokenAuth.validate(request, token, function (err, isValid, credentials) {
         test.notOk(err)
-        test.equal(isValid, false)
+        test.equal(isValid, true)
         test.equal(credentials, dfsp)
         test.end()
-      }
-
-      TokenAuth.validate(request, bearer, cb)
+      })
     })
 
     validateTest.end()
